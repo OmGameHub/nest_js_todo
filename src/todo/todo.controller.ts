@@ -7,17 +7,20 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from "@nestjs/common";
 import { TodoService } from "./todo.service";
 import { CreateTodoDto } from "./dto/createTodo.dto";
 import { UpdateTodoDto } from "./dto/updateTodo.dto";
 import ApiResponse from "src/utils/ApiResponse";
 import { GetTodosQuery } from "./dto/getTodosQuery.dto";
+import { JwtAuthGuard } from "@/auth/guard/jwt-auth.guard";
 
 @Controller({
   version: "1",
   path: "/todos",
 })
+@UseGuards(JwtAuthGuard)
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 

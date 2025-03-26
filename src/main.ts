@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
 import { validationOptions } from "./utils/validation-options";
+import * as cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,8 @@ async function bootstrap() {
     credentials: true, // Allow credentials (e.g., cookies)
     allowedHeaders: "Content-Type, Accept", // Allowed headers
   });
+
+  app.use(cookieParser());
 
   await app.listen(process.env.PORT ?? 8000);
 }

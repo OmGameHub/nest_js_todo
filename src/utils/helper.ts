@@ -13,7 +13,7 @@ export default class Helpers {
   ) {
     res.cookie(name, value, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "lax",
       maxAge: expires,
       path: "/",
