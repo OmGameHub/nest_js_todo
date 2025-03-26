@@ -11,7 +11,6 @@ import { RegisterDto } from "./dto/register.dto";
 import ApiResponse from "@/utils/ApiResponse";
 import { JwtAuthGuard } from "@/auth/guard/jwt-auth.guard";
 import { CurrentUser } from "@/common/decorators/current-user.decorators";
-import { UserEntity } from "./entities/user.entity";
 
 @Controller({
   version: "1",
