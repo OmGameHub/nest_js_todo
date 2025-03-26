@@ -5,8 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  ManyToOne,
 } from "typeorm";
 import { TodoStatus } from "src/enums";
+import { UserEntity } from "@/users/entities/user.entity";
 
 @Entity()
 export class TodoEntity {
@@ -28,6 +30,9 @@ export class TodoEntity {
 
   @Column({ default: false })
   completed: boolean;
+
+  @ManyToOne(() => UserEntity, (user) => user.todos)
+  user: UserEntity;
 
   @CreateDateColumn()
   createdAt: Date;

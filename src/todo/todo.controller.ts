@@ -17,6 +17,8 @@ import { UpdateTodoDto } from "./dto/updateTodo.dto";
 import ApiResponse from "src/utils/ApiResponse";
 import { GetTodosQuery } from "./dto/getTodosQuery.dto";
 import { JwtAuthGuard } from "@/auth/guard/jwt-auth.guard";
+import { CurrentUser } from "@/common/decorators/current-user.decorators";
+import { UserEntity } from "@/users/entities/user.entity";
 
 @Controller({
   version: "1",
@@ -42,8 +44,11 @@ export class TodoController {
 
   @Post("/")
   @HttpCode(HttpStatus.CREATED)
-  async addTodo(@Body() todo: CreateTodoDto) {
-    const newTodo = await this.todoService.addTodo(todo);
+  async addTodo(
+    @Body() todo: CreateTodoDto,
+    @CurrentUser() currentUser: UserEntity,
+  ) {
+    const newTodo = await this.todoService.addTodo(todo, currentUser);
     return new ApiResponse(
       HttpStatus.CREATED,
       "Todo added successfully",

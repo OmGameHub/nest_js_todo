@@ -5,6 +5,7 @@ import { TodoEntity } from "./todo.entity";
 import { CreateTodoDto } from "./dto/createTodo.dto";
 import { UpdateTodoDto } from "./dto/updateTodo.dto";
 import { GetTodosQuery } from "./dto/getTodosQuery.dto";
+import { UserEntity } from "@/users/entities/user.entity";
 
 @Injectable()
 export class TodoService {
@@ -42,8 +43,8 @@ export class TodoService {
     return todo;
   }
 
-  async addTodo(todo: CreateTodoDto): Promise<TodoEntity> {
-    const newTodo = this.todosRepository.create(todo);
+  async addTodo(todo: CreateTodoDto, user: UserEntity): Promise<TodoEntity> {
+    const newTodo = this.todosRepository.create({ ...todo, user });
     await this.todosRepository.save(newTodo);
     return newTodo;
   }
