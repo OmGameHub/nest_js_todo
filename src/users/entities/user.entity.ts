@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Exclude } from "class-transformer";
+import { Exclude, instanceToPlain } from "class-transformer";
 import { TodoEntity } from "@/todo/todo.entity";
 
 @Entity()
@@ -22,4 +22,8 @@ export class UserEntity {
 
   @OneToMany(() => TodoEntity, (todo) => todo.user)
   todos: TodoEntity[];
+
+  toJSON() {
+    return instanceToPlain(this);
+  }
 }
