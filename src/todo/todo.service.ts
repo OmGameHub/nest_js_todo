@@ -14,9 +14,14 @@ export class TodoService {
     private todosRepository: Repository<TodoEntity>,
   ) {}
 
-  getTodos(@Query() query: GetTodosQuery): Promise<TodoEntity[]> {
+  getTodos(
+    userId: number,
+    @Query() query: GetTodosQuery,
+  ): Promise<TodoEntity[]> {
     const { q, completed } = query;
     const queryBuilder = this.todosRepository.createQueryBuilder("todo");
+
+    queryBuilder.where("todo.userId = :userId", { userId });
 
     if (completed !== undefined) {
       queryBuilder.andWhere("todo.completed = :completed", { completed });
