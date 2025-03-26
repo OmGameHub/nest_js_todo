@@ -23,20 +23,25 @@ export class UsersController {
   @Post("register")
   async register(@Body() registerDto: RegisterDto) {
     const user = await this.usersService.register(registerDto);
+    const { password, ...userDetails } = user;
+
     return new ApiResponse(
       HttpStatus.CREATED,
       "User registered successfully.",
-      { user },
+      { user: userDetails },
     );
   }
 
   @Get("current-user")
   @UseGuards(JwtAuthGuard)
-  async getLoggedInUser(@CurrentUser() user: UserEntity) {
+  async getLoggedInUser(@CurrentUser() currentUser: UserEntity) {
+    const user = await this.usersService.findById(currentUser.id);
+    const { password, ...userDetails } = user;
+
     return new ApiResponse(
       HttpStatus.OK,
       "User details fetched successfully.",
-      user,
+      userDetails,
     );
   }
 }
