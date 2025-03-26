@@ -5,18 +5,18 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "./entities/user.entity";
+import { UserEntity } from "./entities/user.entity";
 import { RegisterDto } from "./dto/register.dto";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<User> {
+  async register(registerDto: RegisterDto): Promise<UserEntity> {
     const { email, password, name } = registerDto;
 
     // Check if user exists
@@ -40,7 +40,11 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findById(userId: number): Promise<UserEntity> {
+    return this.usersRepository.findOneBy({ id: userId });
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.usersRepository.findOneBy({ email });
     if (!user) {
       throw new NotFoundException("User not found");

@@ -8,6 +8,8 @@ import {
   Put,
   Query,
   UseGuards,
+  HttpStatus,
+  HttpCode,
 } from "@nestjs/common";
 import { TodoService } from "./todo.service";
 import { CreateTodoDto } from "./dto/createTodo.dto";
@@ -25,32 +27,47 @@ export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Get("/")
+  @HttpCode(HttpStatus.OK)
   async getAllTodos(@Query() query: GetTodosQuery) {
     const todos = await this.todoService.getTodos(query);
-    return new ApiResponse(200, "Todos fetched successfully", todos);
+    return new ApiResponse(HttpStatus.OK, "Todos fetched successfully", todos);
   }
 
   @Get("/:id")
+  @HttpCode(HttpStatus.OK)
   async getTodoById(@Param("id") id: number) {
     const todo = await this.todoService.getTodoById(id);
-    return new ApiResponse(200, "Todo fetched successfully", todo);
+    return new ApiResponse(HttpStatus.OK, "Todo fetched successfully", todo);
   }
 
   @Post("/")
+  @HttpCode(HttpStatus.CREATED)
   async addTodo(@Body() todo: CreateTodoDto) {
     const newTodo = await this.todoService.addTodo(todo);
-    return new ApiResponse(201, "Todo added successfully", newTodo);
+    return new ApiResponse(
+      HttpStatus.CREATED,
+      "Todo added successfully",
+      newTodo,
+    );
   }
 
   @Put("/:id")
+  @HttpCode(HttpStatus.OK)
   async updateTodo(@Param("id") id: string, @Body() todo: UpdateTodoDto) {
     const updatedTodo = await this.todoService.updateTodo(parseInt(id), todo);
-    return new ApiResponse(200, "Todo updated successfully", updatedTodo);
+    return new ApiResponse(
+      HttpStatus.OK,
+      "Todo updated successfully",
+      updatedTodo,
+    );
   }
 
   @Delete("/:id")
+  @HttpCode(HttpStatus.OK)
   async deleteTodo(@Param("id") id: number) {
     await this.todoService.deleteTodoById(id);
-    return new ApiResponse(200, "Todo deleted successfully", { todoId: id });
+    return new ApiResponse(HttpStatus.OK, "Todo deleted successfully", {
+      todoId: id,
+    });
   }
 }
