@@ -14,7 +14,10 @@ import { UpdateTodoDto } from "./dto/updateTodo.dto";
 import ApiResponse from "src/utils/ApiResponse";
 import { GetTodosQuery } from "./dto/getTodosQuery.dto";
 
-@Controller("todos")
+@Controller({
+  version: "1",
+  path: "/todos",
+})
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
