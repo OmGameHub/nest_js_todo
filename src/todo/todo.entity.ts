@@ -9,7 +9,7 @@ import {
 import { TodoStatus } from "src/enums";
 
 @Entity()
-export class Todo {
+export class TodoEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
