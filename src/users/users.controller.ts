@@ -34,8 +34,8 @@ export class UsersController {
 
   @Get("current-user")
   @UseGuards(JwtAuthGuard)
-  async getLoggedInUser(@CurrentUser() currentUser: UserEntity) {
-    const user = await this.usersService.findById(currentUser.id);
+  async getLoggedInUser(@CurrentUser() currentUser: any) {
+    const user = await this.usersService.findById(currentUser.userId);
     const { password, ...userDetails } = user;
 
     return new ApiResponse(
